@@ -13,7 +13,8 @@ public final class PropertiesUtil {
     }
 
     private static void loadProperties() {
-        try (InputStream in = PropertiesUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
+        try (InputStream in = PropertiesUtil.class.getClassLoader()
+                .getResourceAsStream("application.properties")) {
             PROPERTIES.load(in);
         } catch (IOException e) {
             throw new RuntimeException(e);
