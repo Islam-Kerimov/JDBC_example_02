@@ -1,6 +1,7 @@
 package com.jdbc.starter;
 
 import com.jdbc.starter.util.ConnectionManager;
+import com.jdbc.starter.util.ConnectionPool;
 import org.postgresql.Driver;
 
 import java.sql.*;
@@ -20,11 +21,15 @@ public class JdbcRunner {
 //                LocalDateTime.now());
 //        System.out.println(result);
 
-        checkMetaData();
+        try {
+            checkMetaData();
+        } finally {
+            ConnectionPool.closePool();
+        }
     }
 
     private static void checkMetaData() throws SQLException {
-        try (Connection connection = ConnectionManager.open()) {
+        try (Connection connection = ConnectionPool.get()) {
             DatabaseMetaData metaData = connection.getMetaData();
             ResultSet catalogs = metaData.getCatalogs();
             while (catalogs.next()) {
