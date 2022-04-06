@@ -3,26 +3,26 @@ package com.jdbc.starter;
 import com.jdbc.starter.util.ConnectionManager;
 import org.postgresql.Driver;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class JdbcRunner {
     public static void main(String[] args) throws SQLException {
         Class<Driver> driverClass = Driver.class;
 
-        String sql = """
-                UPDATE info
-                SET data = 'Test'
-                WHERE id  = 5
-                """;
+        String sql = "SELECT * FROM ticket";
         try (Connection connection = ConnectionManager.open();
-             Statement statement = connection.createStatement()) {
+             Statement statement = connection.createStatement(
+                     ResultSet.TYPE_SCROLL_INSENSITIVE,
+                     ResultSet.CONCUR_UPDATABLE)) {
 //            System.out.println(connection.getSchema());
 //            System.out.println(connection.getTransactionIsolation());
-            var executeResult = statement.executeUpdate(sql);
-            System.out.println(executeResult);
+            var executeResult = statement.executeQuery(sql);
+            while (executeResult.next()) {
+                System.out.print(executeResult.getLong("id") + " ");
+                System.out.print(executeResult.getString("passenger_no") + " ");
+                System.out.println(executeResult.getBigDecimal("cost"));
+                System.out.println("--------");
+            }
         }
     }
 }
