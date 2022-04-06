@@ -13,16 +13,15 @@ public class JdbcRunner {
         Class<Driver> driverClass = Driver.class;
 
         String sql = """
-                create table if not exists info(
-                    id serial primary key ,
-                    data text not null 
-                );
+                UPDATE info
+                SET data = 'Test'
+                WHERE id  = 5
                 """;
         try (Connection connection = ConnectionManager.open();
              Statement statement = connection.createStatement()) {
-            System.out.println(connection.getSchema());
-            System.out.println(connection.getTransactionIsolation());
-            var executeResult = statement.execute(sql);
+//            System.out.println(connection.getSchema());
+//            System.out.println(connection.getTransactionIsolation());
+            var executeResult = statement.executeUpdate(sql);
             System.out.println(executeResult);
         }
     }
