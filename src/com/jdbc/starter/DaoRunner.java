@@ -16,6 +16,8 @@ public class DaoRunner {
 //        updateTest();
 //        selectAllTest();
 //        selectAllWithFiltersTest();
+        Optional<Ticket> ticket = TicketDao.getInstance().findById(5L);
+        System.out.println(ticket);
     }
 
     private static void selectAllWithFiltersTest() {
@@ -53,7 +55,7 @@ public class DaoRunner {
         Ticket ticket = new Ticket();
         ticket.setPassengerNO("12345");
         ticket.setGetPassengerName("Test");
-        ticket.setFlightId(3L);
+//        ticket.setFlight(3L);
         ticket.setSeatNo("A2");
         ticket.setCost(BigDecimal.TEN);
 
